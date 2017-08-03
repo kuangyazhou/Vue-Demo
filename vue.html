@@ -1,0 +1,93 @@
+<html>
+
+<head>
+    <script src="https://unpkg.com/vue"></script>
+</head>
+
+<body>
+    <div id="app">
+        {{message}}
+    </div>
+    <div id="app-2">
+        <span v-bind:title="message">动态title!{{text}}</span>
+    </div>
+    <div id="seen">
+        <p v-if="seen">this is the use of seen</p>
+    </div>
+    <div id="app-4">
+        <p v-for="todo in todos">
+            {{ todo.text }}
+        </p>
+    </div>
+    <div id="app5">
+        <p>{{reText}}</p>
+        <button v-on:click="reverse">reverse</button>
+    </div>
+    <div id="app6">
+        <p>{{input}}</p>
+        <input v-model="input">
+    </div>
+    <div><todo-item></todo-item></div>
+</body>
+<script>
+    var app = new Vue({
+        el: "#app",
+        data: {
+            message: "hello Vue!"
+        }
+    });
+    var app2 = new Vue({
+        el: "#app-2",
+        data: {
+            message: "loading" + new Date(),
+            text: "fuck the king!"
+        }
+    });
+    var seen = new Vue({
+        el: "#seen",
+        data: {
+            seen: true
+        }
+    });
+    var app4 = new Vue({
+        el: "#app-4",
+        data: {
+            todos: [
+                { "text": "a" },
+                { text: "b" },
+                { "text": "c" },
+                { text: "d" }
+            ]
+        }
+    });
+    //app4.todos.push({"text":"I am new"});
+
+    var app5=new Vue({
+        el:"#app5",
+        data:{
+            reText:"reversetext"
+        },
+        methods:{
+            reverse:function(){
+                console.log(this);
+                this.reText=this.reText.split('').reverse().join('');
+            }
+        }
+    });
+    var app6=new Vue({
+        el:"#app6",
+        data:{
+            input:"the text of input!!!"
+        }
+    });
+
+    Vue.component('todo-item',{
+        template:'<span>this is a component</span>'
+    });
+    function setState() {
+        seen = false;
+    }
+
+</script>
+
+</html>
