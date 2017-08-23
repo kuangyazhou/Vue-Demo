@@ -27,9 +27,46 @@
         <p>{{input}}</p>
         <input v-model="input">
     </div>
-    <div><todo-item></todo-item></div>
+    <div>
+        <todo-item></todo-item>
+    </div>
+
+    <div id="app7">
+        <item v-for="item in items" v-bind:todo="item" v-bind:key="item.id">
+        </item>
+    </div>
+
+    <!--外层加上id，否则无法绑定成功,好坑爹啊我艹，为什么不能直接用-->
+    <div id="checkbox">
+        <input type="checkbox" v-model="checked" v-on:click="inputclick">
+        <label for="checkbox">{{ checked }}</label>
+    </div>
+    <!-- <input type="radio" id="one" value="One" v-model="picked">
+    <label for="one">One</label>
+    <input type="radio" id="two" value="Two" v-model="picked">
+    <label for="two">Two</label>
+    <span>Picked: {{ picked }}</span> -->
+
+    <div id="checkboxs">
+        <input type="checkbox" id="jack" value="Jack" v-model="checkedNames">
+        <label for="jack">Jack</label>
+        <input type="checkbox" id="john" value="John" v-model="checkedNames">
+        <label for="john">John</label>
+        <input type="checkbox" id="mike" value="Mike" v-model="checkedNames" v-on:click="showCheckName">
+        <label for="mike">Mike</label>
+        <br>
+        <span>Checked names: {{ checkedNames }}</span>
+    </div>
+    <!--自定义指令-->
+    <div id="directive">
+        <p>页面进入时，input元素自动获得焦点</p>
+        <input v-focus>
+    </div>
 </body>
 <script>
+    Vue.component('todo-item', {
+        template: '<li>这是一个 todo 项</li>'
+    })
     var app = new Vue({
         el: "#app",
         data: {
@@ -52,42 +89,109 @@
     var app4 = new Vue({
         el: "#app-4",
         data: {
-            todos: [
-                { "text": "a" },
-                { text: "b" },
-                { "text": "c" },
-                { text: "d" }
-            ]
+            todos: [{
+                "text": "a"
+            }, {
+                text: "b"
+            }, {
+                "text": "c"
+            }, {
+                text: "d"
+            }]
         }
     });
     //app4.todos.push({"text":"I am new"});
 
-    var app5=new Vue({
-        el:"#app5",
-        data:{
-            reText:"reversetext"
+    var app5 = new Vue({
+        el: "#app5",
+        data: {
+            reText: "reversetext"
         },
-        methods:{
-            reverse:function(){
+        methods: {
+            reverse: function() {
                 console.log(this);
-                this.reText=this.reText.split('').reverse().join('');
+                this.reText = this.reText.split('').reverse().join('');
             }
         }
     });
-    var app6=new Vue({
-        el:"#app6",
-        data:{
-            input:"the text of input!!!"
+    var app6 = new Vue({
+        el: "#app6",
+        data: {
+            input: "the text of input!!!"
         }
     });
 
-    Vue.component('todo-item',{
-        template:'<span>this is a component</span>'
+    Vue.component("item", {
+        props: ['todo'],
+        template: '<span>{{todo.text}}</span>'
     });
+
+    var app7 = new Vue({
+        el: "#app7",
+        data: {
+            items: [{
+                id: 0,
+                text: "A"
+            }, {
+                id: 0,
+                text: "B"
+            }, {
+                id: 0,
+                text: "C"
+            }]
+        }
+    })
+
+    //过滤器 filter
+    new Vue({
+        el: "#app",
+        filters: {
+            capital: function(value) {
+                if (!value) return '';
+                value = value.toString();
+                return value.charAt(0).toUpperCase() + value.slice(1);
+            }
+        }
+    })
+
+    new Vue({
+        el: "#checkbox",
+        data: {
+            checked: 'please click the checkbox!!!'
+        },
+        methods: {
+            inputclick: function() {
+                console.log("components buddle failed!!!");
+            }
+        },
+    });
+
+    new Vue({
+        el: "#checkboxs",
+        data: {
+            checkedNames: [],
+        },
+        methods: {
+            showCheckName: function() {
+                console.log(this, this.checkedNames);
+            }
+        }
+    });
+
+    // 自定义指令
+    Vue.directive('focus', {
+        inserted: function(el) {
+            el.focus();
+        }
+    });
+
+    new Vue({
+        el: '#directive',
+    })
+
     function setState() {
         seen = false;
     }
-
 </script>
 
 </html>
