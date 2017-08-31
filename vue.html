@@ -192,6 +192,30 @@
     function setState() {
         seen = false;
     }
+
+    //render
+    Vue.component('anchored-heading', {
+        render: function(createElement) {
+            var headingId = getChildrenTextContent(this.$slots.default)
+                .toLowerCase()
+                .replace(/\W+/g, '-')
+                .replace(/(^\-|\-$)/g, '')
+            return createElement('h' + this.level, [
+                createElement('a', {
+                    attrs: {
+                        name: headingId,
+                        href: '#' + headingId
+                    }
+                }, this.$solts.default)
+            ])
+        },
+        props: {
+            level: {
+                type: Number,
+                required: true
+            }
+        }
+    })
 </script>
 
 </html>

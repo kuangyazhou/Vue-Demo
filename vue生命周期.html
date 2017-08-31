@@ -9,6 +9,8 @@
     <div id="app">
         {{message}}
     </div>
+    <progress></progress>
+    <meter></meter>
 </body>
 <script>
     Vue.component('todo-item', {
@@ -74,7 +76,20 @@
             console.log("%c%s", "color:red", "data   : " + this.$data);
             console.log("%c%s", "color:red", "message: " + this.message)
         }
+
+        //app.message='fuck the king' //触发update事件
+        //app.$destroy();  //触发destroy事件
+        //整个生命周期钩子结束;
     });
+    let object = new Object({
+        a: '1',
+        b: '2'
+    });
+    console.log(object.getOwnPropertyDescriptor)
+    console.log(object.getOwnPropertyNames)
+    console.log(object.getPrototypeOf)
+    console.log(object.getOwnPropertySymbols)
+        // console.log(object.getOwnPropertyDescriptor())
 </script>
 
 </html>
